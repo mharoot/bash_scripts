@@ -26,14 +26,43 @@ function createConfig() {
     echo "<?php" >> module.config.php
     echo "namespace $1;" >> module.config.php
     echo >> module.config.php
+
+    echo "use Zend\Router\Http\Segment;" >> module.config.php
     echo "use Zend\ServiceManager\Factory\InvokableFactory;" >> module.config.php
+
     echo >> module.config.php
     echo "return [ " >> module.config.php
     echo "    'controllers' => [" >> module.config.php 
+    
     echo "    'factories' => [" >> module.config.php
     printf "            Controller\%sController::class => InvokableFactory::class, \n" $1 >> module.config.php
     echo "        ]," >> module.config.php
     echo "    ]," >> module.config.php
+
+    # make the first letter a lower case by convention
+    routeName=$1
+    routeName="$(tr '[:upper:]' '[:lower:]' <<< ${routeName:0:1})${routeName:1}"
+
+    printf "    'router' => [ 
+        'routes' => [
+            '%s' => [ 
+                'type' => Segment::class, 
+                'options' => [ 
+                    'route' => '/%s[/:action[/:id]]', 
+                    'constraints' => [ 
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*', 
+                        'id' => '[0-9]+', 
+                    ], 
+                    'defaults' => [ 
+                        'controller' => Controller\%sController::class,
+                        'action' => 'index', 
+                    ], 
+                ], 
+            ], 
+        ], 
+    ],\n" $routeName $routeName $1 >> module.config.php
+
+    
     echo "    'view_manager' => [" >> module.config.php
     echo "        'template_path_stack' => [ " >> module.config.php
     echo "            'album' => __DIR__ . '/../view'," >> module.config.php
