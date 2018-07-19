@@ -1,4 +1,3 @@
-# This script if for creating Zend Module directories and empty files.
 # How to use this script example:
 #                                 
 # ./createZendModule.sh Product
@@ -31,6 +30,21 @@ function createSrc() {
     mkdir Form
     mkdir Controller
     touch Module.php
+
+    # create module
+    echo "<?php" >> Module.php
+    echo "namespace $1;" >> Module.php
+    echo >> Module.php
+    echo "use Zend\ModuleManager\Feature\ConfigProviderInterface;" >> Module.php
+    echo >> Module.php
+    echo "class Module implements ConfigProviderInterface" >> Module.php
+    echo "{" >> Module.php
+    echo "    public function getConfig()" >> Module.php
+    echo "    {" >> Module.php
+    echo "        return include __DIR__ . '/../config/module.config.php';" >> Module.php
+    echo "    }" >> Module.php
+    echo "}" >> Module.php
+
     cd ../
 }
 
@@ -55,7 +69,7 @@ function main() {
     createMessage $1
     createDirectory $1
     createConfig
-    createSrc
+    createSrc $1
     createView $1
 
 }
