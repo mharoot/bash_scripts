@@ -1,6 +1,6 @@
 # How to use this script example:
 #                                 
-# ./createZendModule.sh Product
+# createZendModule.sh Product
 #
 
 function createMessage() {
@@ -63,7 +63,16 @@ function createView() {
     cd ../../../
 }
 
-
+function nextStep() {
+    echo "Open \"composer.json\" in your project root, and find the following section:"
+    echo 
+    echo "\"autoload\": {"
+    echo "       \"psr-4\": {" 
+    echo "            \"Application\\\\\": \"module/Application/src/\","
+    echo "            \"$1\\\\\": \"module/$1/src/\"   // Add the following line"
+    echo "         }"
+    echo
+}
 
 function main() {
     createMessage $1
@@ -71,6 +80,7 @@ function main() {
     createConfig
     createSrc $1
     createView $1
+    nextStep $1
 
 }
 main $1
