@@ -1,6 +1,6 @@
 # How to use this script example:
 #                                 
-# createZendModule.sh Product
+# ./createZendModule.sh Product
 #
 
 function createMessage() {
@@ -71,6 +71,9 @@ function nextStep() {
     echo "            \"Application\\\\\": \"module/Application/src/\","
     echo "            \"$1\\\\\": \"module/$1/src/\"   // Add the following line"
     echo "         }"
+    echo
+    echo "Once you've made that change, run the following to ensure Composer updates its autoloading rules:"
+    echo "$ composer dump-autoload"
     echo
 }
 
