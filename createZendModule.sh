@@ -21,6 +21,25 @@ function createDirectory() {
 function createConfig() {
     cd config
     touch module.config.php
+
+    # create module.config.php
+    echo "<?php" >> module.config.php
+    echo "namespace $1;" >> module.config.php
+    echo >> module.config.php
+    echo "use Zend\ServiceManager\Factory\InvokableFactory;" >> module.config.php
+    echo >> module.config.php
+    echo "return [ " >> module.config.php
+    echo "       'controllers' => [" >> module.config.php 
+    echo "            'factories' => [" >> module.config.php
+    printf "                Controller\%sController::class => InvokableFactory::class, \n" $1 >> module.config.php
+    echo "            ]," >> module.config.php
+    echo "        ]," >> module.config.php
+    echo "        'view_manager' => [" >> module.config.php
+    echo "            'template_path_stack' => [ " >> module.config.php
+    echo "                'album' => __DIR__ . '/../view'," >> module.config.php
+    echo " 		    ]," >> module.config.php
+    echo "        ]," >> module.config.php
+    echo "      ];" >> module.config.php
     cd ../
 }
 
@@ -80,7 +99,7 @@ function nextStep() {
 function main() {
     createMessage $1
     createDirectory $1
-    createConfig
+    createConfig $1
     createSrc $1
     createView $1
     nextStep $1
