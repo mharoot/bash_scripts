@@ -1,6 +1,6 @@
 # How to use this script example:
 #                                 
-# ./createZendModule.sh Product
+# ./createModule.sh Product
 #
 
 function createMessage() {
@@ -29,17 +29,17 @@ function createConfig() {
     echo "use Zend\ServiceManager\Factory\InvokableFactory;" >> module.config.php
     echo >> module.config.php
     echo "return [ " >> module.config.php
-    echo "       'controllers' => [" >> module.config.php 
-    echo "            'factories' => [" >> module.config.php
-    printf "                Controller\%sController::class => InvokableFactory::class, \n" $1 >> module.config.php
-    echo "            ]," >> module.config.php
+    echo "    'controllers' => [" >> module.config.php 
+    echo "    'factories' => [" >> module.config.php
+    printf "            Controller\%sController::class => InvokableFactory::class, \n" $1 >> module.config.php
     echo "        ]," >> module.config.php
-    echo "        'view_manager' => [" >> module.config.php
-    echo "            'template_path_stack' => [ " >> module.config.php
-    echo "                'album' => __DIR__ . '/../view'," >> module.config.php
-    echo " 		    ]," >> module.config.php
-    echo "        ]," >> module.config.php
-    echo "      ];" >> module.config.php
+    echo "    ]," >> module.config.php
+    echo "    'view_manager' => [" >> module.config.php
+    echo "        'template_path_stack' => [ " >> module.config.php
+    echo "            'album' => __DIR__ . '/../view'," >> module.config.php
+    echo " 		]," >> module.config.php
+    echo "    ]," >> module.config.php
+    echo "];" >> module.config.php
     cd ../
 }
 
